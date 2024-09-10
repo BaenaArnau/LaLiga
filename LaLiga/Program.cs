@@ -14,21 +14,21 @@ namespace LaLiga
 
         static void Main(string[] args)
         {
+            LeerArchivo();
             while (true)
             {
-                LeerArchivo();
                 switch (Menu())
                 {
                     case 1:
-                        AñadirScore();
+                        while (!AñadirScore()) ;
                         DictionaryToCSV();
                         break;
                     case 2:
-                        EliminarScore();
+                        while (!EliminarScore()) ;
                         DictionaryToCSV();
                         break;
                     case 3:
-                        ModificarScore();
+                        while (!ModificarScore()) ;
                         DictionaryToCSV();
                         break;
                     case 0:
@@ -81,6 +81,7 @@ namespace LaLiga
                 while (linea != null)
                 {
                     string[] datos = linea.Split(',');
+
                     if (int.TryParse(datos[1], out int puntos))
                     {
                         score.Add(datos[0], puntos);
@@ -156,6 +157,8 @@ namespace LaLiga
 
         static bool ModificarScore()
         {
+            MostrarScore();
+
             Console.WriteLine("Escriba el nombre del equipo que quieres modificar");
             String nombreEquipo = Console.ReadLine();
 
