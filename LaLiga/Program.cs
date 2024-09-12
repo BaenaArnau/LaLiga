@@ -82,9 +82,7 @@ namespace LaLiga
             try
             {
                 StreamReader sr = new StreamReader(filePath);
-                string linea;
-
-                linea = sr.ReadLine();
+                string linea= sr.ReadLine();
 
                 while (linea != null)
                 {
