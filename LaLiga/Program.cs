@@ -62,15 +62,6 @@ namespace LaLiga
 
         static void LeerArchivo()
         {
-
-            if (!File.Exists(filePath))
-            {
-                using (FileStream file = File.Create(filePath))
-                {
-                    Console.WriteLine("Archivo creado.");
-                }
-            }
-
             try
             {
                 StreamReader sr = new StreamReader(filePath);
@@ -83,12 +74,11 @@ namespace LaLiga
                     string[] datos = linea.Split(',');
 
                     if (int.TryParse(datos[1], out int puntos))
-                    {
                         score.Add(datos[0], puntos);
-                    }
 
                     linea = sr.ReadLine();
                 }
+
                 sr.Close();
             }
             catch (Exception e)
@@ -100,10 +90,11 @@ namespace LaLiga
 
         static void MostrarScore()
         {
-            for (int i = 0; i < score.Count; i++)
+            foreach (var equipo in score)
             {
-                Console.Write("Nombre: " + score.ElementAt(i).Key + "   ");
-                Console.WriteLine("Score: " + score.ElementAt(i).Value);
+                Console.WriteLine("Nombre: " + equipo.Key);
+                Console.WriteLine("Score: " + equipo.Value);
+                Console.WriteLine("-----------------------------------");
             }
         }
 
@@ -115,9 +106,9 @@ namespace LaLiga
             Console.WriteLine("Escriba el nombre del equipo");
             nombreEquipo = Console.ReadLine();
 
-            for (int i = 0; i < score.Count; i++)
+            foreach (var equipo in score)
             {
-                if (score.ElementAt(i).Key == nombreEquipo)
+                if (equipo.Key == nombreEquipo)
                 {
                     Console.WriteLine("El nombre del equipo ya esta elegido");
                     return false;
@@ -142,9 +133,9 @@ namespace LaLiga
             Console.WriteLine("Escriba el nombre del equipo que quieres borrar");
             String nombreEquipo = Console.ReadLine();
 
-            for (int i = 0; i < score.Count; i++)
+            foreach (var equipo in score)
             {
-                if (nombreEquipo == score.ElementAt(i).Key)
+                if (nombreEquipo == equipo.Key)
                 {
                     score.Remove(nombreEquipo);
                     return true;
@@ -169,9 +160,9 @@ namespace LaLiga
                 return false;
             }
 
-            for (int i = 0; i < score.Count; i++)
+            foreach (var equipo in score)
             {
-                if (nombreEquipo == score.ElementAt(i).Key)
+                if (nombreEquipo == equipo.Key)
                 {
                     score[nombreEquipo] = result;
                     return true;
@@ -186,10 +177,8 @@ namespace LaLiga
         {
             using (StreamWriter wr = new StreamWriter(filePath))
             {
-                for (int i = 0; i < score.Count; i++)
-                {
-                    wr.WriteLine(score.ElementAt(i).Key + "," + score.ElementAt(i).Value);
-                }
+                foreach (var equipo in score)
+                    wr.WriteLine(equipo.Key + "," + equipo.Value);
             }
         }
     }
