@@ -43,14 +43,16 @@ namespace LaLiga
 
             do
             {
-                Console.WriteLine("┌───────────────────────────────────┐");
-                Console.WriteLine("│        MENU  PRINCIPAL            │");
-                Console.WriteLine("├───────────────────────────────────┤");
-                Console.WriteLine("│  (1)  - Añadir equipo             │");
-                Console.WriteLine("│  (2)  - Eliminar equipo           │");
-                Console.WriteLine("│  (3)  - Modificar score           │");
-                Console.WriteLine("│  (0)  - Salir                     │");
-                Console.WriteLine("└───────────────────────────────────┘");
+                Console.WriteLine(@"
+┌───────────────────────────────────┐
+│        MENU  PRINCIPAL            │
+├───────────────────────────────────┤
+│  (1)  - Añadir equipo             │
+│  (2)  - Eliminar equipo           │
+│  (3)  - Modificar score           │
+│  (0)  - Salir                     │
+└───────────────────────────────────┘
+");
 
                 if (!int.TryParse(Console.ReadLine(), out option))
                     Console.WriteLine("Opcion invalida");
@@ -92,9 +94,8 @@ namespace LaLiga
         {
             foreach (var equipo in score)
             {
-                Console.WriteLine("Nombre: " + equipo.Key);
-                Console.WriteLine("Score: " + equipo.Value);
-                Console.WriteLine("-----------------------------------");
+                Console.WriteLine("Nombre: " + equipo.Key + "   Score: " + equipo.Value);
+                Console.WriteLine("---------------------------------------------------");
             }
         }
 
@@ -102,9 +103,7 @@ namespace LaLiga
         {
             MostrarScore();
 
-            string nombreEquipo;
-            Console.WriteLine("Escriba el nombre del equipo");
-            nombreEquipo = Console.ReadLine();
+            String nombreEquipo = PedirNombre();
 
             foreach (var equipo in score)
             {
@@ -115,14 +114,12 @@ namespace LaLiga
                 }
             }
 
-            Console.WriteLine("Escriba los puntos del equipo");
-            if (!int.TryParse(Console.ReadLine(), out int result))
-            {
-                Console.WriteLine("Escribe una puntuacion valida");
-                return false;
-            }
+            int? result = PedirPuntuacion();
 
-            score.Add(nombreEquipo, result);
+            if (result == null)
+                return false;
+
+            score.Add(nombreEquipo, (int)result);
             return true;
         }
 
@@ -130,8 +127,7 @@ namespace LaLiga
         {
             MostrarScore();
 
-            Console.WriteLine("Escriba el nombre del equipo que quieres borrar");
-            String nombreEquipo = Console.ReadLine();
+            String nombreEquipo = PedirNombre();
 
             foreach (var equipo in score)
             {
@@ -150,21 +146,18 @@ namespace LaLiga
         {
             MostrarScore();
 
-            Console.WriteLine("Escriba el nombre del equipo que quieres modificar");
-            String nombreEquipo = Console.ReadLine();
+            String nombreEquipo = PedirNombre();
 
-            Console.WriteLine("Escriba que score quiere ponerle al equipo " + nombreEquipo);
-            if (!int.TryParse(Console.ReadLine(), out int result))
-            {
-                Console.WriteLine("Introduzca un numero valido");
+            int? result = PedirPuntuacion();
+
+            if (result == null)
                 return false;
-            }
 
             foreach (var equipo in score)
             {
                 if (nombreEquipo == equipo.Key)
                 {
-                    score[nombreEquipo] = result;
+                    score[nombreEquipo] = (int)result;
                     return true;
                 }
             }
@@ -180,6 +173,24 @@ namespace LaLiga
                 foreach (var equipo in score)
                     wr.WriteLine(equipo.Key + "," + equipo.Value);
             }
+        }
+
+        static string PedirNombre()
+        {
+            Console.WriteLine("Escriba el nombre del equipo");
+            return Console.ReadLine();
+        }
+
+        static int? PedirPuntuacion()
+        {
+            Console.WriteLine("Escriba que score quiere ponerle al equipo");
+            if (!int.TryParse(Console.ReadLine(), out int result))
+            {
+                Console.WriteLine("Introduzca un numero valido");
+                return null;
+            }
+
+            return result;
         }
     }
 }
