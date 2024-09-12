@@ -16,7 +16,7 @@ namespace LaLiga
         static string filePath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "liga.csv");
         
         // Variable que gestiona el nombre y score de los equipos
-        static Dictionary<string, int> score = new Dictionary<string, int>();
+        static Dictionary<string, InfoEquipos> score = new Dictionary<string, InfoEquipos>();
 
         /// <summary>
         /// Metodo principal de la aplicacion que se ejecuta al comenzar el rpograma
@@ -231,5 +231,11 @@ namespace LaLiga
 
             return result;
         }
+    }
+
+    public struct InfoEquipos
+    {
+        public int score;
+        public List<string> jugadores;
     }
 }
