@@ -38,6 +38,12 @@ namespace LaLiga
                     case 3:
                         while (!ModificarScore()) ;
                         break;
+                    case 4:
+                        while (!AñadirJugador()) ;
+                        break;
+                    case 5:
+                        while (!EliminarJugador()) ;
+                        break;
                     case 0:
                         return;
                 }
@@ -62,6 +68,8 @@ namespace LaLiga
 │  (1)  - Añadir equipo             │
 │  (2)  - Eliminar equipo           │
 │  (3)  - Modificar score           │
+│  (4)  - Añadir jugador            │
+│  (4)  - Eliminar jugador          │
 │  (0)  - Salir                     │
 └───────────────────────────────────┘
 ");
@@ -230,6 +238,37 @@ namespace LaLiga
             }
 
             return result;
+        }
+
+        static void AñadirJugador()
+        {
+            MostrarScore();
+
+            String nombreEquipo = PedirNombre();
+
+            String nombreJugador = PedirJugador();
+
+            if(score.ContainsKey(nombreEquipo))
+                score[nombreEquipo].jugadores.Add(nombreJugador);
+        }
+
+        static bool EliminarJugador()
+        {
+            MostrarScore();
+
+            String nombreEquipo = PedirNombre();
+
+            String nombreJugador = PedirJugador();
+
+            if (score.ContainsKey(nombreEquipo))
+                if (score[nombreEquipo].jugadores.Contains(nombreJugador))
+                    score[nombreEquipo].jugadores.Remove(nombreJugador);
+        }
+
+        static string PedirJugador()
+        {
+            Console.WriteLine("Escribe el jugador que quieres añadir.")
+            return Console.ReadLine();
         }
     }
 
