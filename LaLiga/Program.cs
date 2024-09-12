@@ -97,7 +97,7 @@ namespace LaLiga
                     string[] datos = linea.Split(',');
 
                     if (int.TryParse(datos[1], out int puntos))
-                        score.Add(datos[0], puntos);
+                        score.Add(datos[0], new InfoEquipos(puntos, new List<string>()));
 
                     linea = sr.ReadLine();
                 }
@@ -129,6 +129,9 @@ namespace LaLiga
         /// <returns>Devuelve un bool de confirmacion</returns>
         static bool AñadirScore()
         {
+            int contador = 0;
+            List<string> jugadores = new List<string>();
+
             MostrarScore();
 
             String nombreEquipo = PedirNombre();
@@ -147,7 +150,23 @@ namespace LaLiga
             if (result == null)
                 return false;
 
-            score.Add(nombreEquipo, (int)result);
+            while (true)
+            {
+                Console.WriteLine("Escribe el nombre del jugador que quiere añadir al equipo o exit si has acabado");
+                string entrada = Console.ReadLine();
+
+                if (entrada.ToLower() == "exit" && contador == 0)
+                    Console.WriteLine("Tiene que tener como minimo un jugador");
+                else if (entrada.ToLower() == "exit")
+                    break;
+                else
+                {
+                    jugadores.Add(entrada);
+                    contador++;
+                }
+            }
+
+            score.Add(nombreEquipo, new InfoEquipos((int)result, jugadores));
             return true;
         }
 
@@ -193,7 +212,7 @@ namespace LaLiga
             {
                 if (nombreEquipo == equipo.Key)
                 {
-                    score[nombreEquipo] = (int)result;
+                    score[nombreEquipo].Score = (int)result;
                     return true;
                 }
             }
@@ -272,9 +291,27 @@ namespace LaLiga
         }
     }
 
-    public struct InfoEquipos
+    public class InfoEquipos
     {
         public int score;
         public List<string> jugadores;
+
+        public InfoEquipos(int score, List<string> jugadores)
+        {
+            this.score = score;
+            this.jugadores = jugadores;
+        }
+
+        public int Score 
+        { 
+            get { return score; }
+            set { score = value; }
+        }
+
+        public List<string> Jugadores
+        {
+            get { return jugadores; }
+            set { jugadores = value;  }
+        }
     }
 }
