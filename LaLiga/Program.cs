@@ -7,11 +7,21 @@ using System.Threading.Tasks;
 
 namespace LaLiga
 {
+    /// <summary>
+    /// Clase interna que gestiona toda nuestra aplicacion
+    /// </summary>
     internal class Program
     {
+        // Varible que nos permite gestionar donde se crea el archivo .csv
         static string filePath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "liga.csv");
+        
+        // Variable que gestiona el nombre y score de los equipos
         static Dictionary<string, int> score = new Dictionary<string, int>();
 
+        /// <summary>
+        /// Metodo principal de la aplicacion que se ejecuta al comenzar el rpograma
+        /// </summary>
+        /// <param name="args">Lista de argumentos para iniciar el metodo</param>
         static void Main(string[] args)
         {
             LeerArchivo();
@@ -21,22 +31,24 @@ namespace LaLiga
                 {
                     case 1:
                         while (!AñadirScore()) ;
-                        DictionaryToCSV();
                         break;
                     case 2:
                         while (!EliminarScore()) ;
-                        DictionaryToCSV();
                         break;
                     case 3:
                         while (!ModificarScore()) ;
-                        DictionaryToCSV();
                         break;
                     case 0:
                         return;
                 }
+                DictionaryToCSV();
             }
         }
 
+        /// <summary>
+        /// Metodo que muestra el las opciones y gestiona la opcion que has elegido
+        /// </summary>
+        /// <returns>Devuelve la opcion del menu que el usuario elija</returns>
         static int Menu()
         {
             int option;
@@ -62,6 +74,9 @@ namespace LaLiga
             return option;
         }
 
+        /// <summary>
+        /// Metodo que lee el fichero .csv si es que existe
+        /// </summary>
         static void LeerArchivo()
         {
             try
@@ -90,6 +105,9 @@ namespace LaLiga
             }
         }
 
+        /// <summary>
+        /// Metodo que nos muestra los equipos con su respectivo score
+        /// </summary>
         static void MostrarScore()
         {
             foreach (var equipo in score)
@@ -99,6 +117,10 @@ namespace LaLiga
             }
         }
 
+        /// <summary>
+        /// Este metodo nos permite crear un equipo y añadirle un score
+        /// </summary>
+        /// <returns>Devuelve un bool de confirmacion</returns>
         static bool AñadirScore()
         {
             MostrarScore();
@@ -123,6 +145,10 @@ namespace LaLiga
             return true;
         }
 
+        /// <summary>
+        /// Este metodo nos permite eliminar un equipo existente
+        /// </summary>
+        /// <returns>Variable de confirmacion</returns>
         static bool EliminarScore()
         {
             MostrarScore();
@@ -142,6 +168,10 @@ namespace LaLiga
             return false;
         }
 
+        /// <summary>
+        /// Metodo que nos permite modificar un score de un equipo ya creado
+        /// </summary>
+        /// <returns>devuelve una variable de confirmacion</returns>
         static bool ModificarScore()
         {
             MostrarScore();
@@ -166,6 +196,9 @@ namespace LaLiga
             return false;
         }
 
+        /// <summary>
+        /// Metodo que comvierte los cambios dentro de la aplicacion en un archivo .csv
+        /// </summary>
         static void DictionaryToCSV()
         {
             using (StreamWriter wr = new StreamWriter(filePath))
@@ -175,12 +208,20 @@ namespace LaLiga
             }
         }
 
+        /// <summary>
+        /// Metodo que nos pide el nombre del equipo
+        /// </summary>
+        /// <returns>Devuelve el nombre que el usuario haya escrito por pantalla</returns>
         static string PedirNombre()
         {
             Console.WriteLine("Escriba el nombre del equipo");
             return Console.ReadLine();
         }
 
+        /// <summary>
+        /// Metodo que pide la puntuacion por consola
+        /// </summary>
+        /// <returns>Devuelve un  numero, puede devolver un null si el usuario no ha escrito un numero</returns>
         static int? PedirPuntuacion()
         {
             Console.WriteLine("Escriba que score quiere ponerle al equipo");
