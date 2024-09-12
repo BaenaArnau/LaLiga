@@ -47,7 +47,7 @@ namespace LaLiga
                     case 0:
                         return;
                 }
-                DictionaryToCSV();
+                DictionaryToCsv();
             }
         }
 
@@ -205,7 +205,7 @@ namespace LaLiga
         /// <summary>
         /// Metodo que comvierte los cambios dentro de la aplicacion en un archivo .csv
         /// </summary>
-        static void DictionaryToCSV()
+        static void DictionaryToCsv()
         {
             using (StreamWriter wr = new StreamWriter(filePath))
             {
