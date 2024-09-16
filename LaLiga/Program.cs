@@ -44,6 +44,9 @@ namespace LaLiga
                     case 5:
                         while (!EliminarJugador()) ;
                         break;
+                    case 6:
+                        while (!ModificarJugador()) ;
+                        break;
                     case 0:
                         return;
                 }
@@ -70,6 +73,7 @@ namespace LaLiga
 │  (3)  - Modificar score           │
 │  (4)  - Añadir jugador            │
 │  (5)  - Eliminar jugador          │
+│  (6)  - Modificar jugador         │
 │  (0)  - Salir                     │
 └───────────────────────────────────┘
 ");
@@ -77,7 +81,7 @@ namespace LaLiga
                 if (!int.TryParse(Console.ReadLine(), out option))
                     Console.WriteLine("Opcion invalida");
 
-            } while (option < 0 || option > 5);
+            } while (option < 0 || option > 6);
 
             return option;
         }
@@ -240,7 +244,7 @@ namespace LaLiga
         }
 
         /// <summary>
-        /// Metodo que comvierte los cambios dentro de la aplicacion en un archivo .csv
+        /// Metodo que convierte los cambios dentro de la aplicacion en un archivo .csv
         /// </summary>
         static void DictionaryToCsv()
         {
@@ -249,15 +253,16 @@ namespace LaLiga
                 foreach (var equipo in score)
                 {
                     wr.Write(equipo.Key);
-                    foreach (var info in score.Values)
-                    {
-                        wr.Write("," + info.Score);
-                        foreach (var jugador in info.Jugadores)
-                            wr.Write("," + jugador);
-                    }
-                }
 
-                wr.WriteLine();
+                    wr.Write("," + equipo.Value.Score);
+
+                    foreach (var jugador in equipo.Value.Jugadores)
+                    {
+                        wr.Write("," + jugador);
+                    }
+
+                    wr.WriteLine();
+                }
             }
         }
 
@@ -296,9 +301,9 @@ namespace LaLiga
         {
             MostrarScore();
 
-            String nombreEquipo = PedirNombre();
+            string nombreEquipo = PedirNombre();
 
-            String nombreJugador = PedirJugador();
+            string nombreJugador = PedirJugador();
 
             if (score.ContainsKey(nombreEquipo))
             {
@@ -327,9 +332,9 @@ namespace LaLiga
         {
             MostrarScore();
 
-            String nombreEquipo = PedirNombre();
+            string nombreEquipo = PedirNombre();
 
-            String nombreJugador = PedirJugador();
+            string nombreJugador = PedirJugador();
 
             if (score.ContainsKey(nombreEquipo))
             {
@@ -349,6 +354,43 @@ namespace LaLiga
                 Console.WriteLine("No se ha encontrado un equipo con ese nombre, vuelva a intentarlo");
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Metodo que nos permite modificar los jugadores de un equipo
+        /// </summary>
+        /// <returns>devuelve una variable de confirmacion</returns>
+        static bool ModificarJugador()
+        {
+            MostrarScore();
+
+            string nombreEquipo = PedirNombre();
+
+            if (!score.ContainsKey(nombreEquipo))
+            {
+                Console.WriteLine("El equipo no existe. Vuelva a intentarlo.");
+                return false;
+            }
+
+            string nombreJugador = PedirJugador();
+
+            Console.WriteLine("Escribe el nuevo nombre:");
+            string nuevoNombre = Console.ReadLine();
+
+            InfoEquipos info = score[nombreEquipo];
+
+            for (int i = 0; i < info.Jugadores.Count; i++)
+            {
+                if (info.Jugadores[i] == nombreJugador)
+                {
+                    info.Jugadores[i] = nuevoNombre;
+                    Console.WriteLine($"El jugador {nombreJugador} ha sido cambiado a {nuevoNombre}.");
+                    return true;
+                }
+            }
+
+            Console.WriteLine("No se ha encontrado el jugador en el equipo.");
+            return false;
         }
 
         /// <summary>
