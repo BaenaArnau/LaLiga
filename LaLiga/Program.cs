@@ -307,10 +307,6 @@ namespace LaLiga
             String nombreJugador = PedirJugador();
 
             if (score.ContainsKey(nombreEquipo))
-                if (score[nombreEquipo].jugadores.Contains(nombreJugador))
-                    score[nombreEquipo].jugadores.Remove(nombreJugador);
-
-            if (score.ContainsKey(nombreEquipo))
             {
                 if (score[nombreEquipo].jugadores.Contains(nombreJugador))
                 {
