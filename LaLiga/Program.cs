@@ -116,6 +116,7 @@ namespace LaLiga
         /// </summary>
         static void MostrarScore()
         {
+            Console.WriteLine("");
             foreach (var equipo in score)
             {
                 Console.WriteLine("Nombre: " + equipo.Key + "   Score: " + equipo.Value.score);
@@ -332,7 +333,7 @@ namespace LaLiga
         /// <returns>Devuelve el nombre que el usuario haya escrito por pantalla</returns>
         static string PedirJugador()
         {
-            Console.WriteLine("Escribe el jugador que quieres añadir.");
+            Console.WriteLine("Escribe el nombre del jugador.");
             return Console.ReadLine();
         }
     }
