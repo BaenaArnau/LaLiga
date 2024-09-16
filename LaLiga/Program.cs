@@ -118,7 +118,10 @@ namespace LaLiga
         {
             foreach (var equipo in score)
             {
-                Console.WriteLine("Nombre: " + equipo.Key + "   Score: " + equipo.Value);
+                Console.WriteLine("Nombre: " + equipo.Key + "   Score: " + equipo.Value.score);
+                Console.WriteLine("Jugadores: ");
+                foreach (string jugador in equipo.Value.jugadores)
+                    Console.WriteLine(" -" + jugador);
                 Console.WriteLine("---------------------------------------------------");
             }
         }
@@ -259,7 +262,12 @@ namespace LaLiga
             return result;
         }
 
-        static void AñadirJugador()
+
+        /// <summary>
+        /// Metodo que nos permite añadir un jugador de un equipo ya creado
+        /// </summary>
+        /// <returns>devuelve una variable de confirmacion</returns>
+        static bool AñadirJugador()
         {
             MostrarScore();
 
@@ -267,10 +275,29 @@ namespace LaLiga
 
             String nombreJugador = PedirJugador();
 
-            if(score.ContainsKey(nombreEquipo))
+            if (score.ContainsKey(nombreEquipo))
+            {
+                foreach(string jugador in score[nombreEquipo].jugadores)
+                    if(jugador.ToLower() == nombreJugador.ToLower())
+                    {
+                        Console.WriteLine("Ese jugador ya esta en el equipo.");
+                        return false;
+                    }
+
                 score[nombreEquipo].jugadores.Add(nombreJugador);
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("No se ha encontrado un equipo con ese nombre, vuelva a intentarlo");
+                return false;
+            }
         }
 
+        /// <summary>
+        /// Metodo que nos permite eliminar un jugador de un equipo ya creado
+        /// </summary>
+        /// <returns>devuelve una variable de confirmacion</returns>
         static bool EliminarJugador()
         {
             MostrarScore();
@@ -282,11 +309,34 @@ namespace LaLiga
             if (score.ContainsKey(nombreEquipo))
                 if (score[nombreEquipo].jugadores.Contains(nombreJugador))
                     score[nombreEquipo].jugadores.Remove(nombreJugador);
+
+            if (score.ContainsKey(nombreEquipo))
+            {
+                if (score[nombreEquipo].jugadores.Contains(nombreJugador))
+                {
+                    score[nombreEquipo].jugadores.Remove(nombreJugador);
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("Ese jugador no juega en este equipo.");
+                    return false;
+                }
+            }
+            else
+            {
+                Console.WriteLine("No se ha encontrado un equipo con ese nombre, vuelva a intentarlo");
+                return false;
+            }
         }
 
+        /// <summary>
+        /// Metodo que nos pide el nombre del jugador
+        /// </summary>
+        /// <returns>Devuelve el nombre que el usuario haya escrito por pantalla</returns>
         static string PedirJugador()
         {
-            Console.WriteLine("Escribe el jugador que quieres añadir.")
+            Console.WriteLine("Escribe el jugador que quieres añadir.");
             return Console.ReadLine();
         }
     }
