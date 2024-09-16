@@ -69,7 +69,7 @@ namespace LaLiga
 │  (2)  - Eliminar equipo           │
 │  (3)  - Modificar score           │
 │  (4)  - Añadir jugador            │
-│  (4)  - Eliminar jugador          │
+│  (5)  - Eliminar jugador          │
 │  (0)  - Salir                     │
 └───────────────────────────────────┘
 ");
@@ -77,7 +77,7 @@ namespace LaLiga
                 if (!int.TryParse(Console.ReadLine(), out option))
                     Console.WriteLine("Opcion invalida");
 
-            } while (option != 0 && option != 1 && option != 2 && option != 3);
+            } while (option < 0 || option > 5);
 
             return option;
         }
