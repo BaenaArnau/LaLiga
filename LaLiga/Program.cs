@@ -90,14 +90,28 @@ namespace LaLiga
             try
             {
                 StreamReader sr = new StreamReader(filePath);
-                string linea= sr.ReadLine();
+                string linea = sr.ReadLine();
 
                 while (linea != null)
                 {
                     string[] datos = linea.Split(',');
 
-                    if (int.TryParse(datos[1], out int puntos))
-                        score.Add(datos[0], new InfoEquipos(puntos, new List<string>()));
+                    if (datos.Length >= 2)
+                    {
+                        if (int.TryParse(datos[1], out int puntos))
+                        {
+                            List<string> jugadores = new List<string>();
+
+                            for (int i = 2; i < datos.Length; i++)
+                                jugadores.Add(datos[i]);
+
+                            score.Add(datos[0], new InfoEquipos(puntos, jugadores));
+                        }
+                        else
+                            Console.WriteLine($"Advertencia: No se pudo comvertir el puntaje en la línea: {linea}");
+                    }
+                    else
+                        Console.WriteLine("Advertencia: Archivo corrupto");
 
                     linea = sr.ReadLine();
                 }
@@ -106,7 +120,7 @@ namespace LaLiga
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine($"Error al leer el archivo: {e.Message}");
                 throw;
             }
         }
@@ -233,7 +247,17 @@ namespace LaLiga
             using (StreamWriter wr = new StreamWriter(filePath))
             {
                 foreach (var equipo in score)
-                    wr.WriteLine(equipo.Key + "," + equipo.Value);
+                {
+                    wr.Write(equipo.Key);
+                    foreach (var info in score.Values)
+                    {
+                        wr.Write("," + info.Score);
+                        foreach (var jugador in info.Jugadores)
+                            wr.Write("," + jugador);
+                    }
+                }
+
+                wr.WriteLine();
             }
         }
 
