@@ -427,6 +427,52 @@ namespace LaLiga
             GolesPartido(firstTeam, secondTeam);
         }
 
+        static void GolesPartido(string nombreEquipo1, string nombreEquipo2)
+        {
+            Random r = new Random();
+            int goles1 = r.Next(0, 10);
+            int goles2 = r.Next(0, 10);
+            InfoEquipos info1 = score[nombreEquipo1];
+            InfoEquipos info2 = score[nombreEquipo2];
+
+            if (goles1 < goles2)
+            {
+                Console.WriteLine($@"
+Ganador: {nombreEquipo1} Goles: {goles1}
+Perdedor: {nombreEquipo2} Goles: {goles2}");
+            }
+            else if (goles1 > goles2)
+            {
+                Console.WriteLine($@"
+Perdedor: {nombreEquipo1} Goles: {goles1}
+Ganador: {nombreEquipo2} Goles: {goles2}");
+            }
+            else
+            {
+                Console.WriteLine($@"
+Empate: {nombreEquipo1} Goles: {goles1}
+Empate: {nombreEquipo2} Goles: {goles2}");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine($"jugadores del {nombreEquipo1} que han marcado este partido: ");
+            for (int i = 0; i < goles1; i++)
+            {
+                int jugador = r.Next(0, info1.Jugadores.Count);
+
+                Console.WriteLine($"- {info1.Jugadores[jugador]}");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine($"jugadores del {nombreEquipo2} que han marcado este partido: ");
+
+            for (int i = 0; i < goles2; i++)
+            {
+                int jugador = r.Next(0, info2.Jugadores.Count);
+
+                Console.WriteLine($"- {info2.Jugadores[jugador]}");
+            }
+        }
     }
 
     /// <summary>
