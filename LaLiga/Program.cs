@@ -48,7 +48,7 @@ namespace LaLiga
                         while (!ModificarJugador()) ;
                         break;
                     case 7:
-                        while (!MontarPartido()) ;
+                        MontarPartido();
                         break;
                     case 0:
                         return;
@@ -406,10 +406,27 @@ namespace LaLiga
             return Console.ReadLine();
         }
 
-        static bool MontarPartido()
+        /// <summary>
+        /// Metodo que monta un partido entre dos equipos random
+        /// </summary>
+        static void MontarPartido()
         {
+            Random r = new Random();
 
+            int equipo1 = r.Next(0, score.Count);
+            int equipo2 = r.Next(0, score.Count);
+
+            while(equipo1 == equipo2)
+                equipo2 = r.Next(0, score.Count);
+
+            string firstTeam = score.ElementAt(equipo1).Key;
+            string secondTeam = score.ElementAt(equipo2).Key;
+
+            Console.WriteLine("Se van a enfrentar el " + firstTeam + " contra el " + secondTeam)
+
+            GolesPartido(firstTeam, secondTeam);
         }
+
     }
 
     public class InfoEquipos
