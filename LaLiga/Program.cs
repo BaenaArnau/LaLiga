@@ -429,6 +429,9 @@ namespace LaLiga
 
     }
 
+    /// <summary>
+    /// Classe que gestiona la informaion de un equipo
+    /// </summary>
     public class InfoEquipos
     {
         public int score;
