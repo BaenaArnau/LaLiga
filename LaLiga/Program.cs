@@ -206,6 +206,12 @@ namespace LaLiga
         /// <returns>Variable de confirmacion</returns>
         static bool EliminarScore()
         {
+            if (score.Count == 0)
+            {
+                Console.WriteLine("No hay ningun equipo que eliminar.");
+                return true;
+            }
+
             MostrarScore();
 
             String nombreEquipo = PedirNombre();
@@ -230,6 +236,12 @@ namespace LaLiga
         static bool ModificarScore()
         {
             MostrarScore();
+
+            if (score.Count == 0)
+            {
+                Console.WriteLine("No hay ningun equipo que modificar.");
+                return true;
+            }
 
             String nombreEquipo = PedirNombre();
 
@@ -308,6 +320,12 @@ namespace LaLiga
         {
             MostrarScore();
 
+            if (score.Count == 0)
+            {
+                Console.WriteLine("No hay ningun equipo al que añadir jugador.");
+                return true;
+            }
+
             string nombreEquipo = PedirNombre();
 
             string nombreJugador = PedirJugador();
@@ -339,12 +357,24 @@ namespace LaLiga
         {
             MostrarScore();
 
+            if (score.Count == 0)
+            {
+                Console.WriteLine("No hay ningun equipo al que eliminar jugador.");
+                return true;
+            }
+
             string nombreEquipo = PedirNombre();
 
             string nombreJugador = PedirJugador();
 
             if (score.ContainsKey(nombreEquipo))
             {
+                if (score[nombreEquipo].jugadores.Count == 1)
+                {
+                    Console.WriteLine("No puedes dejar a un equipo sin jugadores.");
+                    return true;
+                }
+
                 if (score[nombreEquipo].jugadores.Contains(nombreJugador))
                 {
                     score[nombreEquipo].jugadores.Remove(nombreJugador);
@@ -370,6 +400,12 @@ namespace LaLiga
         static bool ModificarJugador()
         {
             MostrarScore();
+
+            if (score.Count == 0)
+            {
+                Console.WriteLine("No hay ningun equipo con jugadores que modificar.");
+                return true;
+            }
 
             string nombreEquipo = PedirNombre();
 
@@ -415,6 +451,11 @@ namespace LaLiga
         /// </summary>
         static void MontarPartido()
         {
+            if(score.Count < 2)
+            {
+                Console.WriteLine("No hay suficientes equipos para montar un partido.");
+                return;
+            }
             Random r = new Random();
 
             int equipo1 = r.Next(0, score.Count);
