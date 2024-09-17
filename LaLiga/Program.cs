@@ -14,7 +14,7 @@ namespace LaLiga
     {
         // Varible que nos permite gestionar donde se crea el archivo .csv
         static string filePath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "liga.csv");
-        
+
         // Variable que gestiona el nombre y score de los equipos
         static Dictionary<string, InfoEquipos> score = new Dictionary<string, InfoEquipos>();
 
@@ -310,8 +310,8 @@ namespace LaLiga
 
             if (score.ContainsKey(nombreEquipo))
             {
-                foreach(string jugador in score[nombreEquipo].jugadores)
-                    if(jugador.ToLower() == nombreJugador.ToLower())
+                foreach (string jugador in score[nombreEquipo].jugadores)
+                    if (jugador.ToLower() == nombreJugador.ToLower())
                     {
                         Console.WriteLine("Ese jugador ya esta en el equipo.");
                         return false;
@@ -413,49 +413,46 @@ namespace LaLiga
         {
             Random r = new Random();
 
-            int equipo1 = r.Next(0, score.Count);
-            int equipo2 = r.Next(0, score.Count);
-
-            while(equipo1 == equipo2)
-                equipo2 = r.Next(0, score.Count);
-
-            string firstTeam = score.ElementAt(equipo1).Key;
-            string secondTeam = score.ElementAt(equipo2).Key;
-
-            Console.WriteLine("Se van a enfrentar el " + firstTeam + " contra el " + secondTeam)
-
-            GolesPartido(firstTeam, secondTeam);
         }
 
-        static void GolesPartido(string nombreEquipo1, string nombreEquipo2)
+        /// <summary>
+        /// Logica de la gestion del partido
+        /// </summary>
+        /// <param name="equipo1">Variable que representa al equipo local</param>
+        /// <param name="equipo2">Variable que representa al equipo visitante</param>
+        static void GolesPartido(string equipo1, string equipo2)
         {
             Random r = new Random();
             int goles1 = r.Next(0, 10);
             int goles2 = r.Next(0, 10);
-            InfoEquipos info1 = score[nombreEquipo1];
-            InfoEquipos info2 = score[nombreEquipo2];
+            InfoEquipos info1 = score[equipo1];
+            InfoEquipos info2 = score[equipo2];
 
-            if (goles1 < goles2)
+            if (goles1 > goles2)
             {
+                score[equipo1].Score += 3;
                 Console.WriteLine($@"
-Ganador: {nombreEquipo1} Goles: {goles1}
-Perdedor: {nombreEquipo2} Goles: {goles2}");
+Ganador: {equipo1} | Goles: {goles1}
+Perdedor: {equipo2} | Goles: {goles2}");
             }
-            else if (goles1 > goles2)
+            else if (goles1 < goles2)
             {
+                score[equipo2].Score += 3;
                 Console.WriteLine($@"
-Perdedor: {nombreEquipo1} Goles: {goles1}
-Ganador: {nombreEquipo2} Goles: {goles2}");
+Perdedor: {equipo1} | Goles: {goles1}
+Ganador: {equipo2} | Goles: {goles2}");
             }
             else
             {
+                score[equipo1].Score++;
+                score[equipo2].Score++;
                 Console.WriteLine($@"
-Empate: {nombreEquipo1} Goles: {goles1}
-Empate: {nombreEquipo2} Goles: {goles2}");
+Empate: {equipo1} | Goles: {goles1}
+Empate: {equipo2} | Goles: {goles2}");
             }
-
             Console.WriteLine();
-            Console.WriteLine($"jugadores del {nombreEquipo1} que han marcado este partido: ");
+            Console.WriteLine($"Jugadores que han marcado del {equipo1}");
+
             for (int i = 0; i < goles1; i++)
             {
                 int jugador = r.Next(0, info1.Jugadores.Count);
@@ -464,7 +461,7 @@ Empate: {nombreEquipo2} Goles: {goles2}");
             }
 
             Console.WriteLine();
-            Console.WriteLine($"jugadores del {nombreEquipo2} que han marcado este partido: ");
+            Console.WriteLine($"Jugadores que han marcado del {equipo2}");
 
             for (int i = 0; i < goles2; i++)
             {
@@ -489,8 +486,8 @@ Empate: {nombreEquipo2} Goles: {goles2}");
             this.jugadores = jugadores;
         }
 
-        public int Score 
-        { 
+        public int Score
+        {
             get { return score; }
             set { score = value; }
         }
@@ -498,7 +495,7 @@ Empate: {nombreEquipo2} Goles: {goles2}");
         public List<string> Jugadores
         {
             get { return jugadores; }
-            set { jugadores = value;  }
+            set { jugadores = value; }
         }
     }
 }
