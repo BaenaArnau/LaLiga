@@ -47,6 +47,9 @@ namespace LaLiga
                     case 6:
                         while (!ModificarJugador()) ;
                         break;
+                    case 7:
+                        while (!MontarPartido()) ;
+                        break;
                     case 0:
                         return;
                 }
@@ -74,6 +77,7 @@ namespace LaLiga
 │  (4)  - Añadir jugador            │
 │  (5)  - Eliminar jugador          │
 │  (6)  - Modificar jugador         │
+│  (7)  - Jugar partido             │
 │  (0)  - Salir                     │
 └───────────────────────────────────┘
 ");
@@ -81,7 +85,7 @@ namespace LaLiga
                 if (!int.TryParse(Console.ReadLine(), out option))
                     Console.WriteLine("Opcion invalida");
 
-            } while (option < 0 || option > 6);
+            } while (option < 0 || option > 7);
 
             return option;
         }
@@ -292,7 +296,6 @@ namespace LaLiga
             return result;
         }
 
-
         /// <summary>
         /// Metodo que nos permite añadir un jugador de un equipo ya creado
         /// </summary>
@@ -401,6 +404,11 @@ namespace LaLiga
         {
             Console.WriteLine("Escribe el nombre del jugador.");
             return Console.ReadLine();
+        }
+
+        static bool MontarPartido()
+        {
+
         }
     }
 
