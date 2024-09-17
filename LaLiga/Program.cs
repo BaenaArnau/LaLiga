@@ -413,6 +413,18 @@ namespace LaLiga
         {
             Random r = new Random();
 
+            int equipo1 = r.Next(0, score.Count);
+            int equipo2 = r.Next(0, score.Count);
+
+            while (equipo1 == equipo2)
+                equipo2 = r.Next(0, score.Count);
+
+            string firstTeam = score.ElementAt(equipo1).Key;
+            string secondTeam = score.ElementAt(equipo2).Key;
+
+            Console.WriteLine("Se van a enfrentar el " + firstTeam + " contra el " + secondTeam);
+
+            GolesPartido(firstTeam, secondTeam);
         }
 
         /// <summary>
