@@ -50,6 +50,9 @@ namespace LaLiga
                     case 7:
                         MontarPartido();
                         break;
+                    case 8:
+                        MostrarScore();
+                        break;
                     case 0:
                         return;
                 }
@@ -85,7 +88,7 @@ namespace LaLiga
                 if (!int.TryParse(Console.ReadLine(), out option))
                     Console.WriteLine("Opcion invalida");
 
-            } while (option < 0 || option > 7);
+            } while (option < 0 || option > 8);
 
             return option;
         }
