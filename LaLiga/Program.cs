@@ -81,6 +81,7 @@ namespace LaLiga
 │  (5)  - Eliminar jugador          │
 │  (6)  - Modificar jugador         │
 │  (7)  - Jugar partido             │
+│  (8)  - Mostrar score             │
 │  (0)  - Salir                     │
 └───────────────────────────────────┘
 ");
